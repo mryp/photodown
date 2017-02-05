@@ -1,80 +1,32 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
 
-# mryp
+# PhotoDown API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+# Group 画像取得関連
 
-## Questions Collection [/questions]
+## 画像一覧取得 [/api/list]
+### POST
 
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+* 指定したページURLから画像のURLを抽出して返却する
+* サイズ指定を行うとそのサイズ範囲内に合致した画像のみを返却する
 
 + Request (application/json)
+    + Attributes
+        + url: http://hogehoge.com/xxx/ (string, required) - ページURL
+        + minwidth: 200 (number) - 最小幅
+        + minheight: 400 (number) - 最小高さ
+        + maxwidth: 2000 (number) - 最大幅
+        + maxheight: 4000 (number) - 最小高さ
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
++ Response 200 (application/json)
+    + Attributes
+        + status: 0 (number) - 取得結果
+        + images (array) - 画像情報リスト
+            + (object)
+                + image: http://xxx/zzz.jpg (string)
+                + width: 300 (number)
+                + height: 600 (number) 
 
-+ Response 201 (application/json)
 
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+## 画像一覧取得 [/api/list]
+### POST
